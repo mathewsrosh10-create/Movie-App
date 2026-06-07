@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
 const API_KEY = import.meta.env.VITE_OMDB_API_KEY
-const HF_TOKEN = import.meta.env.VITE_HF_TOKEN
 
 function useDebounce(value, delay) {
   const [debounced, setDebounced] = useState(value)
@@ -56,7 +55,7 @@ function MovieCard({ movie, onClick }) {
   )
 }
 
-function Modal({ movie, onClose, aiInsight, aiLoading }) {
+function Modal({ movie, onClose }) {
   const hasPoster = movie.Poster && movie.Poster !== 'N/A'
 
   useEffect(() => {
@@ -115,16 +114,6 @@ function Modal({ movie, onClose, aiInsight, aiLoading }) {
             {movie.Plot && movie.Plot !== 'N/A' && (
               <p className="modal-plot">{movie.Plot}</p>
             )}
-            <div className="ai-section">
-              <div className="ai-header">
-                <span className="ai-icon">✦</span>
-                <span className="ai-label">Why Watch This?</span>
-              </div>
-              {aiLoading
-                ? <div className="ai-loading"><span /><span /><span /></div>
-                : <p className="ai-text">{aiInsight || 'Could not generate insight.'}</p>
-              }
-            </div>
           </div>
         </div>
       </div>
@@ -138,8 +127,6 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState(null)
-  const [aiInsight, setAiInsight] = useState('')
-  const [aiLoading, setAiLoading] = useState(false)
   const debouncedQuery = useDebounce(query, 500)
 
   const fetchMovies = useCallback(async (q) => {
@@ -168,36 +155,6 @@ export default function App() {
     const res = await fetch(`https://www.omdbapi.com/?i=${id}&apikey=${API_KEY}`)
     const data = await res.json()
     setSelected(data)
-    setAiInsight('')
-    setAiLoading(true)
-
-    try {
-      const prompt = `You are a passionate film critic. In 2-3 sentences, tell me why "${data.Title}" (${data.Year}) is worth watching. Be specific and enthusiastic. Genre: ${data.Genre}. Director: ${data.Director}. Plot: ${data.Plot}`
-
-      const aiRes = await fetch(
-        'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${HF_TOKEN}`
-          },
-          body: JSON.stringify({
-            inputs: prompt,
-            parameters: { max_new_tokens: 150, temperature: 0.7 }
-          })
-        }
-      )
-      const aiData = await aiRes.json()
-      console.log('AI response:', JSON.stringify(aiData))
-      const raw = Array.isArray(aiData) ? aiData[0]?.generated_text : aiData?.generated_text
-      const insight = raw?.replace(prompt, '').trim()
-      setAiInsight(insight || 'A must-watch cinematic experience.')
-    } catch {
-      setAiInsight('A must-watch cinematic experience.')
-    } finally {
-      setAiLoading(false)
-    }
   }
 
   return (
@@ -249,7 +206,7 @@ export default function App() {
         </main>
 
         <footer className="footer">
-          <p>Powered by OMDb API · AI insights by Mistral · Built with React</p>
+          <p>Powered by OMDb API · Built with React</p>
         </footer>
       </div>
 
@@ -257,8 +214,6 @@ export default function App() {
         <Modal
           movie={selected}
           onClose={() => setSelected(null)}
-          aiInsight={aiInsight}
-          aiLoading={aiLoading}
         />
       )}
     </>

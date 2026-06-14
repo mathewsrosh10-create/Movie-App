@@ -14,7 +14,7 @@ export const mockMovies = [
     Country: "United States, Canada",
     Awards: "Won 6 Oscars. 38 wins & 52 nominations total",
     Poster: "https://image.tmdb.org/t/p/w500/czemb42u5L6FWwJWI4hdqDOhC4b.jpg",
-    Backdrop: "https://image.tmdb.org/t/p/original/xOMo8BRK7PqaHD6P2ikC30lh1rr.jpg",
+    Backdrop: "/dune_backdrop.png",
     Tagline: "Long live the fighters.",
     Metascore: "79",
     imdbRating: "8.6",

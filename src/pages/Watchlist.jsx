@@ -91,13 +91,13 @@ export default function WatchlistPage({ query, openAuthModal, watchlist, onWatch
   });
 
   return (
-    <div className="space-y-8 animate-fade-in py-4">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12 animate-fade-in">
       {/* Title */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-white/5 pb-5">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-white/10 pb-6">
         <div>
-          <h1 className="text-3xl font-extrabold font-display tracking-tight text-white flex items-center gap-2.5">
+          <h1 className="text-3xl font-extrabold font-display tracking-tight text-white flex items-center gap-3">
             <span className="text-gradient bg-gradient-to-r from-[#6366f1] to-[#f43f5e] bg-clip-text text-transparent">My Watchlist</span>
-            <span className="text-xs bg-[#6366f1]/10 text-[#6366f1] px-2.5 py-1 rounded-full border border-[#6366f1]/20 font-semibold uppercase tracking-wider font-body">
+            <span className="text-xs bg-[#6366f1]/10 text-[#6366f1] px-3 py-1 rounded-full border border-[#6366f1]/20 font-bold uppercase tracking-wider font-body">
               {watchlist.length} {watchlist.length === 1 ? 'Title' : 'Titles'}
             </span>
           </h1>
@@ -106,7 +106,7 @@ export default function WatchlistPage({ query, openAuthModal, watchlist, onWatch
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-2 pb-2">
+      <div className="flex flex-wrap gap-3 pb-6 border-b border-white/5">
         {tabs.map(tab => {
           const count = tab.id === 'all'
             ? watchlist.length
@@ -116,14 +116,14 @@ export default function WatchlistPage({ query, openAuthModal, watchlist, onWatch
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`pill flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-full border transition-all duration-250 cursor-pointer ${
+              className={`pill flex items-center gap-2 px-4.5 py-2.5 text-xs font-semibold rounded-full border transition-all duration-200 cursor-pointer ${
                 activeTab === tab.id
                   ? 'bg-[#6366f1] border-[#6366f1] text-white shadow-lg shadow-[#6366f1]/20'
-                  : 'bg-transparent border-white/5 hover:border-white/10 text-zinc-400 hover:text-white'
+                  : 'bg-transparent border-white/5 hover:border-white/15 text-zinc-400 hover:text-white hover:bg-white/3'
               }`}
             >
               {tab.name}
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
                 activeTab === tab.id ? 'bg-white/20 text-white' : 'bg-white/5 text-zinc-500'
               }`}>
                 {count}
@@ -135,13 +135,13 @@ export default function WatchlistPage({ query, openAuthModal, watchlist, onWatch
 
       {/* Movies Grid */}
       {filteredMovies.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
           {filteredMovies.map(movie => {
             const hasPoster = movie.Poster && movie.Poster !== 'N/A';
             return (
               <div
                 key={movie.imdbID}
-                className="group relative flex flex-col bg-[#141419] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6366f1]/30 transition-all duration-300 hover:-translate-y-2.5 shadow-lg shadow-black/30"
+                className="group relative flex flex-col bg-[#141419] border border-white/5 rounded-2xl overflow-hidden hover:border-[#6366f1]/30 transition-all duration-300 hover:-translate-y-2 shadow-xl shadow-black/40"
               >
                 {/* Poster Wrap */}
                 <div className="relative aspect-[2/3] bg-[#111115] overflow-hidden">
@@ -153,8 +153,8 @@ export default function WatchlistPage({ query, openAuthModal, watchlist, onWatch
                       loading="lazy"
                     />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-zinc-600 gap-1.5">
-                      <span className="text-2xl">🎬</span>
+                    <div className="w-full h-full flex flex-col items-center justify-center text-zinc-600 gap-2">
+                      <span className="text-3xl">🎬</span>
                       <span className="text-xs">No Poster</span>
                     </div>
                   )}
@@ -162,7 +162,7 @@ export default function WatchlistPage({ query, openAuthModal, watchlist, onWatch
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-4">
                     <button
                       onClick={() => handleRemoveClick(movie.imdbID)}
-                      className="bg-[#f43f5e] hover:bg-rose-600 text-white p-2.5 rounded-full shadow-lg transition-transform transform scale-90 group-hover:scale-100 duration-200 cursor-pointer"
+                      className="bg-[#f43f5e] hover:bg-rose-600 text-white p-3 rounded-full shadow-lg transition-transform transform scale-90 group-hover:scale-100 duration-200 cursor-pointer"
                       title="Remove from Watchlist"
                     >
                       <svg
@@ -180,7 +180,7 @@ export default function WatchlistPage({ query, openAuthModal, watchlist, onWatch
                 </div>
 
                 {/* Info & Controls */}
-                <div className="p-4 flex-grow flex flex-col gap-3">
+                <div className="p-5 flex-grow flex flex-col gap-4">
                   <h3
                     className="font-display font-semibold text-sm text-white line-clamp-2 leading-snug tracking-tight"
                     title={movie.Title}
@@ -202,7 +202,7 @@ export default function WatchlistPage({ query, openAuthModal, watchlist, onWatch
                     {/* Secondary explicit delete text link */}
                     <button
                       onClick={() => handleRemoveClick(movie.imdbID)}
-                      className="w-full py-1 bg-transparent hover:bg-rose-500/5 text-[10px] text-zinc-500 hover:text-[#f43f5e] font-semibold border border-transparent hover:border-rose-500/10 rounded-lg transition-all duration-200 cursor-pointer"
+                      className="w-full py-1.5 bg-transparent hover:bg-rose-500/5 text-[10px] text-zinc-500 hover:text-[#f43f5e] font-semibold border border-transparent hover:border-rose-500/10 rounded-lg transition-all duration-200 cursor-pointer"
                     >
                       Remove Title
                     </button>
@@ -214,19 +214,21 @@ export default function WatchlistPage({ query, openAuthModal, watchlist, onWatch
         </div>
       ) : (
         /* Empty Tab State */
-        <div className="flex flex-col items-center justify-center text-center p-12 py-16 bg-[#111115] border border-white/5 rounded-2xl max-w-lg mx-auto">
-          <span className="text-4xl filter grayscale opacity-45">🍿</span>
-          <h3 className="text-base font-bold font-display text-white mt-4">
-            {query.trim() ? 'No Matching Titles' : 'Empty Status List'}
-          </h3>
-          <p className="text-zinc-500 text-xs mt-1.5 max-w-sm leading-relaxed">
-            {query.trim()
-              ? `We couldn't find any titles in this list matching "${query}".`
-              : `You haven't marked any movies as "${tabs.find(t => t.id === activeTab).name}" yet.`}
-          </p>
+        <div className="flex flex-col items-center justify-center text-center p-16 py-24 bg-[#111115]/50 border border-white/5 backdrop-blur-md rounded-3xl max-w-xl mx-auto shadow-2xl space-y-6">
+          <span className="text-5xl filter grayscale opacity-35">🍿</span>
+          <div className="space-y-2">
+            <h3 className="text-lg font-bold font-display text-white">
+              {query.trim() ? 'No Matching Titles' : 'Empty Status List'}
+            </h3>
+            <p className="text-zinc-500 text-xs max-w-sm leading-relaxed mx-auto">
+              {query.trim()
+                ? `We couldn't find any titles in this list matching "${query}".`
+                : `You haven't marked any movies as "${tabs.find(t => t.id === activeTab).name}" yet.`}
+            </p>
+          </div>
           <button
             onClick={() => navigate('/')}
-            className="btn btn-secondary px-5 py-2 text-xs font-semibold rounded-full mt-5 hover:bg-white/10 hover:border-white/15 cursor-pointer"
+            className="btn btn-secondary px-6 py-2.5 text-xs font-semibold rounded-full hover:bg-white/10 hover:border-white/15 cursor-pointer shadow-md"
           >
             Browse Movies
           </button>

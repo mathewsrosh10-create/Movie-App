@@ -1,9 +1,16 @@
 # CINEMATE 🎬
 
+🔗 **Live Demo**: [cinemate.vercel.app](https://movie-app-virid-mu.vercel.app)
+
 CINEMATE is a premium, dark-themed React web application built with Vite and Tailwind CSS. It allows users to search for movies/series, review metadata (ratings, plot, cast, awards), and curate a personalized watchlist synchronized in real-time with a Supabase PostgreSQL backend.
 
 ---
-
+## Tech Stack
+- **Frontend**: React 18, Vite, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL + Auth)
+- **API**: OMDb API
+- **Deployment**: Vercel
+---
 ## Key Features
 
 - **Authentication System**:
@@ -84,7 +91,7 @@ with check (auth.uid() = user_id);
 - Paste your Google **Client ID** and **Client Secret**.
 - Under **Redirect URLs** in Authentication Settings, add:
   - `http://localhost:5173/**` (for local development)
-  - `https://your-app-url.vercel.app/**` (for production Vercel deployment)
+  - `https://movie-app-virid-mu.vercel.app/**` (for production Vercel deployment)
 
 ---
 
